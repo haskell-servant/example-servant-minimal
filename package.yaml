@@ -1,0 +1,33 @@
+ghc-options: -Wall
+
+tests:
+  spec:
+    main: Spec.hs
+    source-dirs:
+      - test
+    dependencies:
+      - hspec
+      - example-ghcjs
+      - servant-client
+      - warp == 3.2.4
+      - http-client
+      - http-types
+
+library:
+  source-dirs:
+    - src
+
+executables:
+  example-ghcjs-server:
+    main: exe/Main.hs
+    dependencies:
+      - example-ghcjs
+
+dependencies:
+  - base
+  - servant == 0.6.*
+  - servant-server
+  - transformers
+  - aeson
+  - wai
+  - warp
