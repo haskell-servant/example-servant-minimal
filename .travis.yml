@@ -1,0 +1,27 @@
+sudo: false
+
+# A small default setup, since we install everything using stack
+language: c
+
+addons:
+  apt:
+    packages:
+      - libgmp-dev
+
+before_install:
+  # Download and unpack the stack executable
+  - mkdir -p ~/.local/bin
+  - export PATH=$HOME/.local/bin:$PATH
+  - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  - stack --version
+
+install:
+  - stack setup --no-terminal
+  - stack install --no-terminal --only-dependencies --test
+
+script:
+  - stack test --no-terminal --pedantic
+
+cache:
+  directories:
+    - $HOME/.stack
