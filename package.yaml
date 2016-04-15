@@ -20,7 +20,7 @@ library:
     - src
 
 executables:
-  example-ghcjs-server:
+  example-servant-minimal:
     main: exe/Main.hs
     dependencies:
       - example-servant-minimal
