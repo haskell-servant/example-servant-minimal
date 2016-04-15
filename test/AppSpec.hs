@@ -9,7 +9,6 @@ import           Network.Wai (Application)
 import           Network.Wai.Handler.Warp
 import           Servant
 import           Servant.Client
-import           Servant.Common.Req
 import           Test.Hspec
 
 import           App hiding (getItems)

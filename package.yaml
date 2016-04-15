@@ -1,3 +1,5 @@
+name: example-servant-minimal
+
 ghc-options: -Wall
 
 tests:
@@ -7,9 +9,9 @@ tests:
       - test
     dependencies:
       - hspec
-      - example-ghcjs
+      - example-servant-minimal
       - servant-client
-      - warp == 3.2.4
+      - warp >= 3.2.4
       - http-client
       - http-types
 
@@ -21,7 +23,7 @@ executables:
   example-ghcjs-server:
     main: exe/Main.hs
     dependencies:
-      - example-ghcjs
+      - example-servant-minimal
 
 dependencies:
   - base

@@ -1,11 +1,7 @@
-resolver: lts-5.11
+resolver: nightly-2016-04-14
 packages:
-- '.'
+  - '.'
 extra-deps:
-- aeson-0.11.1.4
-- http2-1.5.4
-- servant-0.6
-- servant-client-0.6
-- servant-server-0.6
-- text-1.2.2.1
-- warp-3.2.4
+  - servant-0.6.1
+  - servant-client-0.6.1
+  - servant-server-0.6.1
