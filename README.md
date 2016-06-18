@@ -14,7 +14,7 @@ stack test --fast
 To execute the test-suite faster while developing, do:
 ``` bash
 chmod go-w .ghci .
-stack exec ghci
+stack exec ghci test/Spec.hs
 ```
 
 and then at the `ghci` prompt do:
