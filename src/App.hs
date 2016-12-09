@@ -41,8 +41,6 @@ server =
   getItems :<|>
   getItemById
 
-type Handler = ExceptT ServantErr IO
-
 getItems :: Handler [Item]
 getItems = return [exampleItem]
 
