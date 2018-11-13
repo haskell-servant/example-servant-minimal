@@ -5,7 +5,7 @@
 
 module App where
 
-import           Control.Monad.Trans.Except
+import           Control.Monad.Trans.Except()
 import           Data.Aeson
 import           GHC.Generics
 import           Network.Wai
@@ -47,7 +47,7 @@ getItems = return [exampleItem]
 getItemById :: Integer -> Handler Item
 getItemById = \ case
   0 -> return exampleItem
-  _ -> throwE err404
+  _ -> throwError err404
 
 exampleItem :: Item
 exampleItem = Item 0 "example item"
