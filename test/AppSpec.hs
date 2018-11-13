@@ -15,12 +15,6 @@ getItems :: ClientM [Item]
 getItem :: Integer -> ClientM Item
 getItems :<|> getItem = client itemApi
 
-type Host = (Manager, BaseUrl)
-
-try :: ClientEnv -> ClientM a -> IO a
-try clientEnv action = either throwIO return =<<
-  runClientM action clientEnv
-
 spec :: Spec
 spec = do
   describe "/item" $ do
@@ -41,3 +35,8 @@ withClient x innerSpec =
         let baseUrl = BaseUrl Http "localhost" port ""
         action (ClientEnv manager baseUrl Nothing)
 
+type Host = (Manager, BaseUrl)
+
+try :: ClientEnv -> ClientM a -> IO a
+try clientEnv action = either throwIO return =<<
+  runClientM action clientEnv
