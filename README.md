@@ -43,3 +43,11 @@ Then you can query the server like this:
 ``` bash
 curl localhost:3000/item
 ```
+
+### Nix
+
+Using Nix or NixOS, you can run `nix-shell stack.nix` before
+following the above instructions. But please note, you'll want
+to edit `stack.nix` and comment out large visual studio code
+dependencies if you don't want to pull these in 
+(`hiepkgs.hies`, `vscode`).

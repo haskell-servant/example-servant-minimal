@@ -1,2 +1,5 @@
 .stack-work/
 example-servant-minimal.cabal
+
+# Editor files:
+*~

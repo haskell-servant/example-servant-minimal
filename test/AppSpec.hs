@@ -2,7 +2,7 @@
 module AppSpec where
 
 import           Control.Exception (throwIO)
-import           Network.HTTP.Client (Manager, newManager, defaultManagerSettings)
+import           Network.HTTP.Client (Manager, newManager, defaultManagerSettings, responseStatus)
 import           Network.HTTP.Types
 import           Network.Wai (Application)
 import           Network.Wai.Handler.Warp
@@ -35,7 +35,7 @@ withClient x innerSpec =
     flip aroundWith innerSpec $ \ action -> \ manager -> do
       testWithApplication x $ \ port -> do
         let baseUrl = BaseUrl Http "localhost" port ""
-        action (ClientEnv manager baseUrl)
+        action (ClientEnv manager baseUrl Nothing)
 
 type Host = (Manager, BaseUrl)
 
