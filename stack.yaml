@@ -3,5 +3,4 @@ packages:
   - '.'
 
 nix:
-  enable: true
   packages: [gmp, zlib]
