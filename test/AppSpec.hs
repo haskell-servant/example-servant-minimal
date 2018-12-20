@@ -2,7 +2,8 @@
 module AppSpec where
 
 import           Control.Exception (throwIO)
-import           Network.HTTP.Client (Manager, newManager, defaultManagerSettings, responseStatus)
+import           Data.Either
+import           Network.HTTP.Client (Manager, newManager, defaultManagerSettings)
 import           Network.HTTP.Types
 import           Network.Wai (Application)
 import           Network.Wai.Handler.Warp
@@ -16,6 +17,8 @@ getItems :: ClientM [Item]
 getItem :: Integer -> ClientM Item
 getItems :<|> getItem = client itemApi
 
+shouldNotOccur = False `shouldBe` True
+
 spec :: Spec
 spec = do
   describe "/item" $ do
@@ -27,7 +30,17 @@ spec = do
         try env (getItem 0) `shouldReturn` Item 0 "example item"
 
       it "throws a 404 for missing items" $ \ env -> do
-        try env (getItem 42) `shouldThrow` (\ e -> responseStatus e == notFound404)
+        respM <- runClientM (getItem 42) env
+        (return $ isLeft respM) `shouldReturn` True
+        case respM of
+          Left(sError) ->
+            case sError of
+              FailureResponse (failureResp) -> responseStatusCode failureResp `shouldBe` status404
+              _ -> shouldNotOccur
+          Right(item) -> shouldNotOccur
+
+        --responseStatusCode resp `shouldReturn` status404
+        --runClientM (getItem 42) env `shouldReturn` FailureReponse(resp)
 
 withClient :: IO Application -> SpecWith ClientEnv -> SpecWith ()
 withClient x innerSpec =

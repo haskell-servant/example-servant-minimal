@@ -46,8 +46,10 @@ curl localhost:3000/item
 
 ### Nix
 
-Using Nix or NixOS, you can run `nix-shell stack.nix` before
+If you are using Nix or NixOS, you can run `nix-shell stack.nix` before
 following the above instructions. But please note, you'll want
 to edit `stack.nix` and comment out large visual studio code
 dependencies if you don't want to pull these in 
-(`hiepkgs.hies`, `vscode`).
+(`hiepkgs.hies`, `vscode`). Also note, you will need to add the
+`--nix` flag to each of the `stack` commands. For instance,
+`stack test --nix --fast`.
