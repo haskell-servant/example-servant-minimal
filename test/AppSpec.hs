@@ -17,6 +17,7 @@ getItems :: ClientM [Item]
 getItem :: Integer -> ClientM Item
 getItems :<|> getItem = client itemApi
 
+shouldNotOccur :: IO ()
 shouldNotOccur = False `shouldBe` True
 
 spec :: Spec

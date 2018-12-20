@@ -44,6 +44,12 @@ Then you can query the server like this:
 curl localhost:3000/item
 ```
 
+To do thorough testing, as done by Travis CI, do:
+
+``` bash
+stack test --no-terminal --pedantic
+```
+
 ### Nix
 
 If you are using Nix or NixOS, you can run `nix-shell stack.nix` before
