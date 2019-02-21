@@ -27,15 +27,20 @@ spec = do
         try env (getItem 0) `shouldReturn` Item 0 "example item"
 
       it "throws a 404 for missing items" $ \ env -> do
-        try env (getItem 42) `shouldThrow` (\ e -> responseStatus e == notFound404)
+        try env (getItem 42) `shouldThrow` errorsWithStatus notFound404
+
+errorsWithStatus :: Status -> ServantError -> Bool
+errorsWithStatus status servantError = case servantError of
+  FailureResponse response -> responseStatusCode response == status
+  _ -> False
 
 withClient :: IO Application -> SpecWith ClientEnv -> SpecWith ()
 withClient x innerSpec =
   beforeAll (newManager defaultManagerSettings) $ do
-    flip aroundWith innerSpec $ \ action -> \ manager -> do
+    flip aroundWith innerSpec $ \ action -> \ httpManager -> do
       testWithApplication x $ \ port -> do
-        let baseUrl = BaseUrl Http "localhost" port ""
-        action (ClientEnv manager baseUrl)
+        let testBaseUrl = BaseUrl Http "localhost" port ""
+        action (ClientEnv httpManager testBaseUrl Nothing)
 
 type Host = (Manager, BaseUrl)
 
