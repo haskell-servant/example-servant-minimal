@@ -1,0 +1,47 @@
+name: Ci
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "*"
+  pull_request:
+    branches:
+      - master
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CACHE_KEY: 0
+
+jobs:
+  all:
+    name: All
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.stack
+          key: stack-${{ env.CACHE_KEY }}-${{ runner.os }}-${{ hashFiles('stack.yaml*') }}
+
+      - name: Info
+        run: stack --version
+
+      - name: Setup
+        run: stack setup
+
+      - name: Install Dependencies
+        run: stack build --test --only-dependencies
+
+      - name: Test
+        run: stack test --pedantic
+
+      - name: Docs
+        run: stack haddock
