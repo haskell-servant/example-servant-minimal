@@ -15,7 +15,7 @@ defaults:
     shell: bash
 
 env:
-  CACHE_KEY: 0
+  CACHE_KEY: 1
 
 jobs:
   all:
