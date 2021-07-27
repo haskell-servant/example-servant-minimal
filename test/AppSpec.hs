@@ -4,7 +4,6 @@ module AppSpec where
 import           Control.Exception (throwIO)
 import           Network.HTTP.Client (Manager, newManager, defaultManagerSettings)
 import           Network.HTTP.Types
-import           Network.Wai (Application)
 import           Network.Wai.Handler.Warp
 import           Servant
 import           Servant.Client
@@ -29,9 +28,9 @@ spec = do
       it "throws a 404 for missing items" $ \ env -> do
         try env (getItem 42) `shouldThrow` errorsWithStatus notFound404
 
-errorsWithStatus :: Status -> ServantError -> Bool
+errorsWithStatus :: Status -> ClientError -> Bool
 errorsWithStatus status servantError = case servantError of
-  FailureResponse response -> responseStatusCode response == status
+  FailureResponse _ response -> responseStatusCode response == status
   _ -> False
 
 withClient :: IO Application -> SpecWith ClientEnv -> SpecWith ()
@@ -40,7 +39,7 @@ withClient x innerSpec =
     flip aroundWith innerSpec $ \ action -> \ httpManager -> do
       testWithApplication x $ \ port -> do
         let testBaseUrl = BaseUrl Http "localhost" port ""
-        action (ClientEnv httpManager testBaseUrl Nothing)
+        action (mkClientEnv httpManager testBaseUrl)
 
 type Host = (Manager, BaseUrl)
 
